@@ -52,7 +52,7 @@ async function getData(httpClient: IHttpClient): Promise<string> {
 	return Promise.resolve(result);
 }
 
-export function create(httpClient: IHttpClient): IDataSource<unknown, string> {
+export function createIQAirScraper(httpClient: IHttpClient): IDataSource<unknown, string> {
 	return {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		getData: (options?: unknown) => from(getData(httpClient))

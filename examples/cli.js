@@ -2,11 +2,12 @@
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const httpClient = require('thaw-http-json-client-node').createHttpClient();
-const { create } = require('..');
+const { createIQAirScraper } = require('..');
 
-create(httpClient)
-	.getData()
-	.subscribe(
+const dataSourceClient = createIQAirScraper(httpClient);
+
+function main(timeout = 0) {
+	dataSourceClient.getData().subscribe(
 		(result) => {
 			// console.log('result:', result);
 			// console.log('result.CITY_STATIONS:', result.CITY_STATIONS);
@@ -71,7 +72,7 @@ create(httpClient)
 			}
 
 			// console.log('result.CITY_DATA.current:', currentData);
-			console.log(`\nCalgary at ${timestamp} :`);
+			console.log(`Calgary at ${timestamp} :`);
 			console.log(`AQI: ${currentData.aqi} : ${colour} : ${colourInterpretation}`);
 			console.log(`Conditio: ${currentData.condition}`);
 			console.log(`Temperature: ${currentData.temperature} C`);
@@ -81,6 +82,14 @@ create(httpClient)
 			console.error('error:', typeof error, error);
 		},
 		() => {
-			console.log('\nDone.');
+			if (!Number.isNaN(timeout) && timeout > 0) {
+				setTimeout(() => main(timeout), timeout);
+			} else {
+				console.log('\nDone.');
+			}
 		}
 	);
+}
+
+main();
+// main(300000); // 5 minutes

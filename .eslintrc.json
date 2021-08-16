@@ -12,7 +12,8 @@
 	"globals": {
 		"console": true,
 		"module": true,
-		"require": true
+		"require": true,
+		"setTimeout": true
 	},
 	"rules": {
 		"quotes": ["warn", "single", "avoid-escape"],
