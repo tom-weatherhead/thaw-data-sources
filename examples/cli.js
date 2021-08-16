@@ -72,24 +72,26 @@ function main(timeout = 0) {
 			}
 
 			// console.log('result.CITY_DATA.current:', currentData);
-			console.log(`Calgary at ${timestamp} :`);
+			console.log(`Current datetime: ${new Date()}`);
+			console.log(`In Calgary at ${timestamp} :`);
 			console.log(`AQI: ${currentData.aqi} : ${colour} : ${colourInterpretation}`);
-			console.log(`Conditio: ${currentData.condition}`);
+			console.log(`Condition: ${currentData.condition}`);
 			console.log(`Temperature: ${currentData.temperature} C`);
-			console.log(`Humidity: ${currentData.humidity} %`);
+			console.log(`Humidity: ${currentData.humidity} %\n`);
 		},
 		(error) => {
 			console.error('error:', typeof error, error);
+			console.error('\n');
 		},
 		() => {
 			if (!Number.isNaN(timeout) && timeout > 0) {
 				setTimeout(() => main(timeout), timeout);
 			} else {
-				console.log('\nDone.');
+				console.log('Done.');
 			}
 		}
 	);
 }
 
-main();
-// main(300000); // 5 minutes
+// main();
+main(900000); // 15 minutes

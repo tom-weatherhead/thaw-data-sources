@@ -1,8 +1,5 @@
 // f-you-money-widget/src/app/web-page-scrapers/yahoo-finance.ts
 
-// , HttpHeaders
-// import { HttpClient } from '@angular/common/http';
-
 import { from } from 'rxjs';
 
 import { IDataSource, IHttpClient } from 'thaw-types';
@@ -11,19 +8,19 @@ export interface IYahooFinanceScraperOptions {
 	symbol: string;
 }
 
-export interface IYahooFinanceFormattedValueType {
+export interface IYahooFinanceScraperFormattedValueType {
 	readonly raw: number;
 	readonly fmt: string;
 }
 
-export interface IYahooFinanceExtendedFormattedValueType
-	extends IYahooFinanceFormattedValueType {
+export interface IYahooFinanceScraperExtendedFormattedValueType
+	extends IYahooFinanceScraperFormattedValueType {
 	readonly longFmt: string;
 }
 
 // This schema works for the ETF VFV.TO :
 
-export interface IYahooFinancePriceType {
+export interface IYahooFinanceScraperPriceType {
 	readonly symbol: string;
 	readonly shortName: string;
 	readonly longName: string;
@@ -40,7 +37,7 @@ export interface IYahooFinancePriceType {
 	// region: string;
 	// language: string;
 	readonly quoteType: string;
-	readonly priceHint: IYahooFinanceExtendedFormattedValueType;
+	readonly priceHint: IYahooFinanceScraperExtendedFormattedValueType;
 	readonly currency: string;
 	readonly currencySymbol: string;
 	// averageDailyVolume3Month: ;
@@ -49,14 +46,14 @@ export interface IYahooFinancePriceType {
 	readonly regularMarketSource: string;
 	readonly regularMarketTime: number;
 
-	readonly regularMarketPrice: IYahooFinanceFormattedValueType;
-	readonly regularMarketPreviousClose: IYahooFinanceFormattedValueType;
-	readonly regularMarketOpen: IYahooFinanceFormattedValueType;
-	readonly regularMarketDailyHigh: IYahooFinanceFormattedValueType;
-	readonly regularMarketDailyLow: IYahooFinanceFormattedValueType;
-	readonly regularMarketChange: IYahooFinanceFormattedValueType;
-	readonly regularMarketChangePercent: IYahooFinanceFormattedValueType;
-	readonly regularMarketVolume: IYahooFinanceExtendedFormattedValueType;
+	readonly regularMarketPrice: IYahooFinanceScraperFormattedValueType;
+	readonly regularMarketPreviousClose: IYahooFinanceScraperFormattedValueType;
+	readonly regularMarketOpen: IYahooFinanceScraperFormattedValueType;
+	readonly regularMarketDailyHigh: IYahooFinanceScraperFormattedValueType;
+	readonly regularMarketDailyLow: IYahooFinanceScraperFormattedValueType;
+	readonly regularMarketChange: IYahooFinanceScraperFormattedValueType;
+	readonly regularMarketChangePercent: IYahooFinanceScraperFormattedValueType;
+	readonly regularMarketVolume: IYahooFinanceScraperExtendedFormattedValueType;
 }
 
 interface IYahooFinanceScraperResultType {
@@ -64,7 +61,7 @@ interface IYahooFinanceScraperResultType {
 		dispatcher?: {
 			stores: {
 				QuoteSummaryStore: {
-					readonly price: IYahooFinancePriceType;
+					readonly price: IYahooFinanceScraperPriceType;
 				};
 			};
 		};
@@ -74,7 +71,7 @@ interface IYahooFinanceScraperResultType {
 async function getPriceFromYahooFinance(
 	httpClient: IHttpClient,
 	symbol: string
-): Promise<IYahooFinancePriceType | undefined> {
+): Promise<IYahooFinanceScraperPriceType | undefined> {
 	const url = `https://finance.yahoo.com/quote/${symbol}?p=${symbol}`;
 	// const headers = new HttpHeaders().set('Accept', 'text/html').set('content-type', 'text/html');
 	// .set('Access-Control-Allow-Origin', '*');
@@ -132,7 +129,7 @@ async function getPriceFromYahooFinance(
 
 export function createYahooFinanceScraper(
 	httpClient: IHttpClient
-): IDataSource<IYahooFinanceScraperOptions, IYahooFinancePriceType | undefined> {
+): IDataSource<IYahooFinanceScraperOptions, IYahooFinanceScraperPriceType | undefined> {
 	return {
 		getData: (options?: IYahooFinanceScraperOptions) => {
 			if (typeof options === 'undefined' || !options.symbol) {
