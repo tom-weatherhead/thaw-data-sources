@@ -1,7 +1,5 @@
 // thaw-data-sources/src/web-page-scrapers/the-globe-and-mail-investing.ts
 
-// import { HttpClient } from '@angular/common/http';
-
 import { from } from 'rxjs';
 
 import { IDataSource, IHttpClient } from 'thaw-types';
@@ -22,7 +20,6 @@ export interface ITheGlobeAndMailInvestingScraperResultType {
 	};
 }
 
-// export
 async function getPriceFromTheGlobeAndMail(
 	httpClient: IHttpClient,
 	fundCode: string
