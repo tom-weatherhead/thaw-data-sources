@@ -24,18 +24,18 @@ export default {
 			file: 'dist/thaw-data-sources.esm.js',
 			format: 'es',
 			esModule: true,
-			compact: true // ,
-			// plugins: [terser()]
-		} // ,
-		// {
-		// 	file: 'dist/thaw-data-sources.js',
-		// 	name: 'thaw-data-sources',
-		// 	format: 'umd',
-		// 	compact: true,
-		// 	plugins: [terser()]
-		// }
+			compact: true,
+			plugins: [terser()]
+		},
+		{
+			file: 'dist/thaw-data-sources.js',
+			name: 'thaw-data-sources',
+			format: 'umd',
+			compact: true,
+			plugins: [terser()]
+		}
 	],
 	// context: 'window'
 	context: 'this',
-	plugins: [nodeResolve(), terser()]
+	plugins: [nodeResolve()]
 };
