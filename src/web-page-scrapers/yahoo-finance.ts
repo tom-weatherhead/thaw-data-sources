@@ -1,4 +1,4 @@
-// f-you-money-widget/src/app/web-page-scrapers/yahoo-finance.ts
+// thaw-data-sources/src/web-page-scrapers/yahoo-finance.ts
 
 import { from } from 'rxjs';
 
@@ -138,10 +138,10 @@ async function getDetailsFromYahooFinance(
 	// const price = data.context.dispatcher.stores.QuoteSummaryStore.price;
 
 	// console.log('getPriceFromYahooFinance() price:', price);
-	console.log(
-		'getPriceFromYahooFinance() data.context.dispatcher.stores.QuoteSummaryStore.summaryDetail:',
-		data.context.dispatcher.stores.QuoteSummaryStore.summaryDetail
-	);
+	// console.log(
+	// 	'getPriceFromYahooFinance() data.context.dispatcher.stores.QuoteSummaryStore.summaryDetail:',
+	// 	data.context.dispatcher.stores.QuoteSummaryStore.summaryDetail
+	// );
 
 	// E.g. getPriceFromYahooFinance() data.context.dispatcher.stores.QuoteSummaryStore.summaryDetail: {
 	//   previousClose: { raw: 4536.95, fmt: '4,536.95' },

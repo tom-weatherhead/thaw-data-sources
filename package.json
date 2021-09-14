@@ -1,6 +1,6 @@
 {
 	"name": "thaw-data-sources",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Data sources for Node.js applications",
 	"keywords": [
 		"data source",
