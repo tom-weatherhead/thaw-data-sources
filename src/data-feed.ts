@@ -2,15 +2,7 @@
 
 import { Observable, Subscriber } from 'rxjs';
 
-import { IDataSource } from 'thaw-types';
-
-export type IDataFeed<U> = Observable<U>;
-
-// export interface IDataFeedOptions<T, U> {
-// 	readonly fnGenerateNextState?: (previousState: T, previousResult: U) => T;
-// 	readonly initialState?: T;
-// 	readonly maxNumIterations?: number;
-// }
+import { IDataFeed, IDataSource } from 'thaw-types';
 
 // TODO? : Also pass in:
 // - fnGenerateNextState: (previousState: T, previousResult: U) => T
@@ -21,6 +13,8 @@ export function createDataFeedFromDataSource<T, U>(
 	dataSource: IDataSource<T, U | undefined>,
 	msDelay: number /*, options: IDataFeedOptions<T, U> = {} */
 ): IDataFeed<U> {
+	// let numIterationsRemaining = ifDefinedThenElse(options.maxNumIterations, 0);
+
 	const fn = (
 		subscriber: Subscriber<U> // ,
 		// stateData?: T
@@ -40,8 +34,8 @@ export function createDataFeedFromDataSource<T, U>(
 				// if (typeof result !== 'undefined') {
 				subscriber.next(result);
 
-				// if (typeof fnGenerateNextState !== 'undefined') {
-				// 	stateData = fnGenerateNextState(stateData, result);
+				// if (typeof options.fnGenerateNextState !== 'undefined') {
+				// 	stateData = options.fnGenerateNextState(stateData, result);
 				// }
 				// } else {
 				if (typeof result === 'undefined') {
@@ -50,37 +44,19 @@ export function createDataFeedFromDataSource<T, U>(
 			})
 			.catch((error: unknown) => {
 				console.error('Data feed error:', typeof error, error);
+				// subscriber.error(error);
 			})
 			.finally(() => {
-				setTimeout(() => fn(subscriber /*, prevDatetimeValue */), msDelay);
+				// if (Number.isNaN(numIterationsRemaining) || numIterationsRemaining === 0 || --numIterationsRemaining > 0) {
+				setTimeout(() => fn(subscriber /*, stateData */), msDelay);
+				// } else {
+				// console.log('The data feed has completed.');
+				// subscriber.complete();
+				// }
 			});
-
-		// this.getSpotPrice(symbol).subscribe((spotPrice: ISpotPrice) => {
-		// 	const currentDatetimeValue = spotPrice.datetime.valueOf();
-		//
-		// 	if (currentDatetimeValue > prevDatetimeValue) {
-		// 		prevDatetimeValue = currentDatetimeValue;
-		// 		subscriber.next(spotPrice);
-		// 	} else {
-		// 		const now = getDateTimeUTCString(new Date());
-		//
-		// 		console.log(
-		// 			now,
-		// 			': Ignoring the spot price because of its datetime:',
-		// 			getDateTimeUTCString(spotPrice.datetime)
-		// 		);
-		// 	}
-		//
-		// 	setTimeout(
-		// 		() => fn(subscriber, prevDatetimeValue),
-		// 		msDelay
-		// 		// Math.max(
-		// 		// 	msDelay - spotPrice.responseMetadata.latencyMs,
-		// 		// 	50
-		// 		// )
-		// 	);
-		// });
 	};
 
-	return new Observable((subscriber: Subscriber<U>) => fn(subscriber /*, initialState */));
+	return new Observable((subscriber: Subscriber<U>) =>
+		fn(subscriber /*, options.initialState */)
+	);
 }
